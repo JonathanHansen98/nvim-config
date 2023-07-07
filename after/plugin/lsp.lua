@@ -3,8 +3,8 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-  'tsserver',
   'rust_analyzer',
+  'tsserver'
 })
 
 -- Fix Undefined global 'vim'
@@ -18,13 +18,61 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
   ['<C-y>'] = cmp.mapping.confirm({ select = true }),
   ["<C-Space>"] = cmp.mapping.complete(),
+  ['<C-y>'] = cmp.mapping.confirm({select = true}),
+  ['<C-e>'] = cmp.mapping.abort(),
+  ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+  ['<C-d>'] = cmp.mapping.scroll_docs(4),
+  ['<Up>'] = cmp.mapping.select_prev_item(cmp_select_opts),
+  ['<Down>'] = cmp.mapping.select_next_item(cmp_select_opts),
+  ['<C-p>'] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.select_prev_item(cmp_select_opts)
+      else
+        cmp.complete()
+      end
+    end),
+  ['<C-n>'] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.select_next_item(cmp_select_opts)
+      else
+        cmp.complete()
+      end
+    end),
 })
 
 cmp_mappings['<Tab>'] = nil
 cmp_mappings['<S-Tab>'] = nil
 
 lsp.setup_nvim_cmp({
-  mapping = cmp_mappings
+  sources = {
+    {name = 'nvim_lsp'},
+  },
+  mapping = cmp_mappings,
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  window = {
+    documentation = {
+      max_height = 15,
+      max_width = 60,
+    }
+  },
+  formatting = {
+    fields = {'abbr', 'menu', 'kind'},
+    format = function(entry, item)
+      local short_name = {
+        nvim_lsp = 'LSP',
+        nvim_lua = 'nvim'
+      }
+
+      local menu_name = short_name[entry.source.name] or entry.source.name
+
+      item.menu = string.format('[%s]', menu_name)
+      return item
+    end,
+  },
 })
 
 lsp.set_preferences({
@@ -62,7 +110,7 @@ lsp.format_on_save({
     ['rust_analyzer'] = {'rust'},
     -- if you have a working setup with null-ls
     -- you can specify filetypes it can format.
-['null-ls'] = {'javascript', 'typescript'},
+    ['null-ls'] = {'javascript', 'typescript'},
   }
 })
 
