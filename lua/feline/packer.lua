@@ -15,14 +15,7 @@ return require("packer").startup(function(use)
   })
 
   -- Colorschemes
-  use({
-    "rose-pine/neovim",
-    as = "rose-pine",
-    config = function()
-      vim.cmd("colorscheme rose-pine")
-    end,
-  })
-  use({ "bluz71/vim-nightfly-colors", as = "nightfly" })
+  use({ "catppuccin/nvim", as = "catpuccin" })
 
   -- Treesitter + Treesitter Context
   use({
@@ -46,12 +39,6 @@ return require("packer").startup(function(use)
         -- refer to the configuration section below
       })
     end,
-  })
-
-  -- GH Cli
-  use({
-    "ldelossa/gh.nvim",
-    requires = { { "ldelossa/litee.nvim" } },
   })
 
   -- Tab bar
@@ -87,16 +74,20 @@ return require("packer").startup(function(use)
       { "rafamadriz/friendly-snippets" },
     },
   })
-  use("jose-elias-alvarez/null-ls.nvim")
-  use("lukas-reineke/lsp-format.nvim")
+
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  })
   use({
     "folke/trouble.nvim",
     config = function()
       require("trouble").setup({})
     end,
   })
-
-  use("preservim/nerdtree")
+  use("ryanoasis/vim-devicons")
   use("Raimondi/delimitMate")
   use("mbbill/undotree")
   use("github/copilot.vim")

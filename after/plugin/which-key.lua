@@ -41,6 +41,12 @@ wk.register({
     ["9"] = { "<cmd>BufferGoto 9<cr>", "Go to Buffer 9" },
     ["0"] = { "<cmd>BufferLast<cr>", "Go to Last Buffer" },
   },
+  s = {
+    name = "+[S]plits",
+    h = "Horizontal Split",
+    v = "Vertical Split",
+    c = "Close Split"
+  },
   g = {
     name = "+[G]it",
     h = {
