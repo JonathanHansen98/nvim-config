@@ -74,6 +74,9 @@ return require("packer").startup(function(use)
       { "rafamadriz/friendly-snippets" },
     },
   })
+  use(
+    "mhartington/formatter.nvim"
+  )
 
   use({
     "iamcco/markdown-preview.nvim",

@@ -11,9 +11,11 @@ vim.api.nvim_set_keymap("n", "<C-d>", "<C-d>zz", { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-u>", "<C-u>zz", { noremap = true })
 
 -- Format buffer
-vim.keymap.set("n", "<A-F>", function()
-  vim.lsp.buf.format()
-end)
+vim.keymap.set("n", "<A-F>", ":FormatWrite <CR>", { noremap = true })
+
+-- Copy to clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { noremap = true })
+vim.keymap.set("n", "<leader>Y", [["+Y]], { noremap = true })
 
 -- Move between splits
 vim.api.nvim_set_keymap("n", "<C-h>", "<C-w>h", { noremap = true })
